@@ -1,4 +1,4 @@
-const API_URL = "https://3000-suhan647-findev-euwyfolx1va.ws-us118.gitpod.io/api/stations"; // Update with actual URL
+const API_URL = "https://3000-suhan647-findev-euwyfolx1va.ws-us117.gitpod.io/api/stations"; // Update with actual URL
 
 // Fetch all stations
 export async function fetchStations() {
