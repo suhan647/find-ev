@@ -16,17 +16,20 @@ export async function addStation(stationData) {
   return res.json();
 }
 
+// Update station
+export async function updateStation(id, updatedData) {
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(updatedData),
+  });
+  return res.json();
+}
+
 // Delete a station
 export async function deleteStation(id) {
-    const res = await fetch(`${API_URL}/${id}`, {
-      method: "DELETE",
-    });
-  
-    if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.message || "Failed to delete station");
-    }
-  
-    return res.json();
-  }
-  
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: "DELETE",
+  });
+  return res.json();
+}

@@ -1,9 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { fetchStations, deleteStation } from "./api";
+import EditStationModal from "./EditStationModal";
 
 export default function StationList() {
   const [stations, setStations] = useState([]);
+  const [editingStation, setEditingStation] = useState(null);
 
   useEffect(() => {
     loadStations();
@@ -16,7 +18,7 @@ export default function StationList() {
 
   async function handleDelete(id) {
     await deleteStation(id);
-    loadStations(); // Refresh list after deletion
+    loadStations();
   }
 
   return (
@@ -25,11 +27,18 @@ export default function StationList() {
       <ul>
         {stations.map((station) => (
           <li key={station._id} className="flex justify-between p-2 border-b">
-            <span>{station.name} - {station.slots} slots</span>
-            <button onClick={() => handleDelete(station._id)} className="text-red-500">Delete</button>
+            <span>{station.name} - {station.location} - {station.availableSlots} slots</span>
+            <div>
+              <button onClick={() => setEditingStation(station)} className="text-blue-500 mr-3">Edit</button>
+              <button onClick={() => handleDelete(station._id)} className="text-red-500">Delete</button>
+            </div>
           </li>
         ))}
       </ul>
+
+      {editingStation && (
+        <EditStationModal station={editingStation} onClose={() => setEditingStation(null)} onUpdated={loadStations} />
+      )}
     </div>
   );
 }

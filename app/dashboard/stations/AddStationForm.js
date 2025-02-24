@@ -11,13 +11,14 @@ export default function AddStationForm({ onStationAdded }) {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (!name || !location || !maxEVs || !availableSlots) {
-      alert("All fields are required");
-      return;
-    }
+    try {
+      const newStation = await addStation({ name, location, maxEVs, availableSlots });
 
-    await addStation({ name, location, maxEVs, availableSlots });
-    onStationAdded(); // Refresh list after adding
+      // ✅ Pass the new station directly to update UI
+      onStationAdded(newStation);
+    } catch (error) {
+      console.error("Error adding station:", error);
+    }
 
     // Clear form
     setName("");
@@ -27,18 +28,15 @@ export default function AddStationForm({ onStationAdded }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 shadow rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Add Station</h2>
+    <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow">
+      <h2 className="text-lg font-bold mb-4">Add New Station</h2>
 
-      <input type="text" placeholder="Station Name" value={name} onChange={(e) => setName(e.target.value)} className="border p-2 w-full mb-3" />
-      
-      <input type="text" placeholder="Location" value={location} onChange={(e) => setLocation(e.target.value)} className="border p-2 w-full mb-3" />
-      
-      <input type="number" placeholder="Max EVs" value={maxEVs} onChange={(e) => setMaxEVs(e.target.value)} className="border p-2 w-full mb-3" />
-      
-      <input type="number" placeholder="Available Slots" value={availableSlots} onChange={(e) => setAvailableSlots(e.target.value)} className="border p-2 w-full mb-3" />
-      
-      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Add</button>
+      <input type="text" placeholder="Station Name" value={name} onChange={(e) => setName(e.target.value)} className="border p-2 w-full mb-2" />
+      <input type="text" placeholder="Location" value={location} onChange={(e) => setLocation(e.target.value)} className="border p-2 w-full mb-2" />
+      <input type="number" placeholder="Max EVs" value={maxEVs} onChange={(e) => setMaxEVs(e.target.value)} className="border p-2 w-full mb-2" />
+      <input type="number" placeholder="Available Slots" value={availableSlots} onChange={(e) => setAvailableSlots(e.target.value)} className="border p-2 w-full mb-4" />
+
+      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Add Station</button>
     </form>
   );
 }
