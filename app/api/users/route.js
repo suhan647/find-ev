@@ -43,19 +43,25 @@ export async function POST(req) {
 }
 
 
-// Delete User
-export async function DELETE(req) {
-  try {
-    await dbConnect();
-    const { userId } = await req.json();
+// // Delete User
+// export async function DELETE(req, { params }) {
+//   try {
+//     await dbConnect();
+//     const { id } = params; // Get user ID from URL params
 
-    if (!userId) {
-      return NextResponse.json({ message: "User ID is required" }, { status: 400 });
-    }
+//     if (!id) {
+//       return NextResponse.json({ message: "User ID is required" }, { status: 400 });
+//     }
 
-    await User.findByIdAndDelete(userId);
-    return NextResponse.json({ message: "User deleted successfully" }, { status: 200 });
-  } catch (error) {
-    return NextResponse.json({ message: "Server Error", error }, { status: 500 });
-  }
-}
+//     const deletedUser = await User.findByIdAndDelete(id);
+
+//     if (!deletedUser) {
+//       return NextResponse.json({ message: "User not found" }, { status: 404 });
+//     }
+
+//     return NextResponse.json({ message: "User deleted successfully" }, { status: 200 });
+//   } catch (error) {
+//     console.error("Error deleting user:", error);
+//     return NextResponse.json({ message: "Server error", error }, { status: 500 });
+//   }
+// }
