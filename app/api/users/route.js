@@ -3,14 +3,14 @@ import User from "@/models/User";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 
-// Get All Users
+// Get all users (Check registered users)
 export async function GET() {
   try {
-    await dbConnect();
-    const users = await User.find().select("-password"); // Exclude password
+    await connectToDB();
+    const users = await User.find({}, { password: 0 }); // Exclude passwords for security
     return NextResponse.json(users, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ message: "Server Error", error }, { status: 500 });
+    return NextResponse.json({ message: "Error fetching users", error }, { status: 500 });
   }
 }
 
