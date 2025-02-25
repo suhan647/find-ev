@@ -25,7 +25,7 @@ export default function RegisterPage() {
   const onSubmit = async (data) => {
     setError("");
     try {
-      const res = await fetch("/api/users", {
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         body: JSON.stringify(data),
       });
@@ -37,6 +37,9 @@ export default function RegisterPage() {
       }
 
       const userData = await res.json();
+
+      localStorage.setItem("user", JSON.stringify({ id: userData._id, email: userData.email }));
+
       login(userData);
       router.push("/dashboard");
     } catch (err) {
