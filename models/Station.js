@@ -5,6 +5,8 @@ const StationSchema = new mongoose.Schema({
   location: { type: String, required: true },
   maxEVs: { type: Number, required: true },
   availableSlots: { type: Number, required: true },
-}, { timestamps: true });
+  latitude: { type: Number, required: true },
+  longitude: { type: Number, required: true },
+});
 
 export default mongoose.models.Station || mongoose.model("Station", StationSchema);

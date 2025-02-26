@@ -1,4 +1,4 @@
-const API_URL = 'https://3000-suhan647-findev-26v7pjqb56v.ws-us118.gitpod.io/api/users'
+const API_URL = 'https://3000-suhan647-findev-arhnxhbgu8z.ws-us118.gitpod.io/api/users'
 // `${process.env.NEXT_PUBLIC_API_URL}/api/users`;
 
 // Fetch all users

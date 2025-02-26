@@ -7,14 +7,15 @@ export default function AddStationForm({ onStationAdded }) {
   const [location, setLocation] = useState("");
   const [maxEVs, setMaxEVs] = useState("");
   const [availableSlots, setAvailableSlots] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     try {
-      const newStation = await addStation({ name, location, maxEVs, availableSlots });
+      const newStation = await addStation({ name, location, maxEVs, availableSlots, latitude, longitude });
 
-      // ✅ Pass the new station directly to update UI
       onStationAdded(newStation);
     } catch (error) {
       console.error("Error adding station:", error);
@@ -25,6 +26,8 @@ export default function AddStationForm({ onStationAdded }) {
     setLocation("");
     setMaxEVs("");
     setAvailableSlots("");
+    setLatitude("");
+    setLongitude("");
   }
 
   return (
@@ -34,7 +37,9 @@ export default function AddStationForm({ onStationAdded }) {
       <input type="text" placeholder="Station Name" value={name} onChange={(e) => setName(e.target.value)} className="border p-2 w-full mb-2" />
       <input type="text" placeholder="Location" value={location} onChange={(e) => setLocation(e.target.value)} className="border p-2 w-full mb-2" />
       <input type="number" placeholder="Max EVs" value={maxEVs} onChange={(e) => setMaxEVs(e.target.value)} className="border p-2 w-full mb-2" />
-      <input type="number" placeholder="Available Slots" value={availableSlots} onChange={(e) => setAvailableSlots(e.target.value)} className="border p-2 w-full mb-4" />
+      <input type="number" placeholder="Available Slots" value={availableSlots} onChange={(e) => setAvailableSlots(e.target.value)} className="border p-2 w-full mb-2" />
+      <input type="number" placeholder="Latitude" value={latitude} onChange={(e) => setLatitude(e.target.value)} className="border p-2 w-full mb-2" />
+      <input type="number" placeholder="Longitude" value={longitude} onChange={(e) => setLongitude(e.target.value)} className="border p-2 w-full mb-4" />
 
       <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Add Station</button>
     </form>

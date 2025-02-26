@@ -7,8 +7,8 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     await dbConnect();
-    const users = await User.find({});
-    
+    const users = await User.find({}).select("-password"); // Exclude passwords
+
     return NextResponse.json(users, { status: 200 });
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -16,9 +16,7 @@ export async function GET() {
   }
 }
 
-
 // Create User
-
 export async function POST(req) {
   try {
     await dbConnect();
@@ -29,9 +27,14 @@ export async function POST(req) {
       return NextResponse.json({ message: "All fields are required" }, { status: 400 });
     }
 
-    // Hash the password before storing it
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Check if email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return NextResponse.json({ message: "Email already registered" }, { status: 400 });
+    }
 
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ name, email, password: hashedPassword, role });
     await newUser.save();
 
@@ -42,26 +45,25 @@ export async function POST(req) {
   }
 }
 
+// Delete User
+export async function DELETE(req) {
+  try {
+    await dbConnect();
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
 
-// // Delete User
-// export async function DELETE(req, { params }) {
-//   try {
-//     await dbConnect();
-//     const { id } = params; // Get user ID from URL params
+    if (!id) {
+      return NextResponse.json({ message: "User ID is required" }, { status: 400 });
+    }
 
-//     if (!id) {
-//       return NextResponse.json({ message: "User ID is required" }, { status: 400 });
-//     }
+    const deletedUser = await User.findByIdAndDelete(id);
+    if (!deletedUser) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
 
-//     const deletedUser = await User.findByIdAndDelete(id);
-
-//     if (!deletedUser) {
-//       return NextResponse.json({ message: "User not found" }, { status: 404 });
-//     }
-
-//     return NextResponse.json({ message: "User deleted successfully" }, { status: 200 });
-//   } catch (error) {
-//     console.error("Error deleting user:", error);
-//     return NextResponse.json({ message: "Server error", error }, { status: 500 });
-//   }
-// }
+    return NextResponse.json({ message: "User deleted successfully" }, { status: 200 });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    return NextResponse.json({ message: "Server error", error }, { status: 500 });
+  }
+}
