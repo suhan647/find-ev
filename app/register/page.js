@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
 
 // Validation Schema
 const schema = yup.object().shape({
@@ -117,6 +118,17 @@ export default function RegisterPage() {
               Create Account
             </button>
           </form>
+
+          {/* Sign In Link */}
+          <div className="text-center mt-4">
+            <p className="text-gray-600">
+              Already have an account?{" "}
+              <Link href="/login" className="text-blue-600 font-medium hover:underline">
+                Sign in
+              </Link>
+            </p>
+          </div>
+
         </div>
       </div>
     </div>
