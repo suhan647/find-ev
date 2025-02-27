@@ -4,16 +4,16 @@ import { useAuth } from "@/context/AuthContext";
 
 export default function Header() {
   const { user } = useAuth();
-  const isAdmin = user === "suhan@hbits.co"; // Check if the logged-in user is admin
+  const isAdmin = user === "suhan@hbits.co"; 
 
   return (
-    <header className="bg-white bg-opacity-10 backdrop-blur-lg shadow-lg p-5 rounded-b-2xl">
+    <header className="bg-white bg-opacity-10 backdrop-blur-lg shadow-lg p-5 rounded-b-2xl fixed top-0 w-full">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         <h1 className="text-2xl font-extrabold text-[#00aaff]">EV Charging</h1>
         <nav>
           <ul className="flex space-x-6">
             <li>
-              <Link href="/user/home" className="hover:text-[#00aaff] transition duration-300">
+              <Link href="/user" className="hover:text-[#00aaff] transition duration-300">
                 Home
               </Link>
             </li>
