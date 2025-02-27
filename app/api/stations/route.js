@@ -6,42 +6,25 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   try {
     await dbConnect();
+    const data = await req.json();
 
-    let data;
-    try {
-      data = await req.json(); // Ensure request body is parsed properly
-    } catch (error) {
-      return NextResponse.json({ message: "Invalid JSON format" }, { status: 400 });
-    }
+    const { name, location, maxEVs, availableSlots, latitude, longitude, booked = false } = data;
 
-    const { name, location, maxEVs, availableSlots, latitude, longitude } = data;
-
-    // Validate required fields
     if (!name || !location || maxEVs === undefined || availableSlots === undefined || latitude === undefined || longitude === undefined) {
       return NextResponse.json({ message: "All fields are required" }, { status: 400 });
     }
 
-    // Ensure numeric values
-    const maxEVsNumber = Number(maxEVs);
-    const availableSlotsNumber = Number(availableSlots);
-    const latitudeNumber = Number(latitude);
-    const longitudeNumber = Number(longitude);
-
-    if (isNaN(maxEVsNumber) || isNaN(availableSlotsNumber) || isNaN(latitudeNumber) || isNaN(longitudeNumber)) {
-      return NextResponse.json({ message: "maxEVs, availableSlots, latitude, and longitude must be numbers" }, { status: 400 });
-    }
-
-    const newStation = new Station({ 
-      name, 
-      location, 
-      maxEVs: maxEVsNumber, 
-      availableSlots: availableSlotsNumber, 
-      latitude: latitudeNumber, 
-      longitude: longitudeNumber 
+    const newStation = new Station({
+      name,
+      location,
+      maxEVs: Number(maxEVs),
+      availableSlots: Number(availableSlots),
+      latitude: Number(latitude),
+      longitude: Number(longitude),
+      booked: Boolean(booked),
     });
 
     await newStation.save();
-
     return NextResponse.json({ message: "Station created successfully", station: newStation }, { status: 201 });
 
   } catch (error) {
@@ -49,6 +32,7 @@ export async function POST(req) {
     return NextResponse.json({ message: "Server Error", error: error.message }, { status: 500 });
   }
 }
+
 
 // Get all stationsStationSchema
 export async function GET() {

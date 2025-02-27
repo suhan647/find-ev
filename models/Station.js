@@ -7,6 +7,7 @@ const StationSchema = new mongoose.Schema({
   availableSlots: { type: Number, required: true },
   latitude: { type: Number, required: true },
   longitude: { type: Number, required: true },
+  booked: { type: Boolean, default: false }, // New field
 });
 
 export default mongoose.models.Station || mongoose.model("Station", StationSchema);
