@@ -7,34 +7,28 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    async function fetchUser() {
+    // Fetch the logged-in user from the API
+    const fetchUser = async () => {
       try {
-        const res = await fetch("/api/auth/me"); // Fetch user details from backend
+        const res = await fetch("/api/auth/me");
         if (res.ok) {
           const data = await res.json();
           setUser(data.user);
         }
       } catch (error) {
-        setUser(null);
+        console.error("Error fetching user:", error);
       }
-    }
+    };
+
     fetchUser();
   }, []);
 
-  const login = async (credentials) => {
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      body: JSON.stringify(credentials),
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-      setUser(data.user);
-    }
+  const login = (userData) => {
+    setUser(userData);
   };
 
   const logout = async () => {
-    await fetch("/api/auth/logout");
+    await fetch("/api/auth/logout", { method: "POST" }); // You need to create a logout API
     setUser(null);
   };
 
