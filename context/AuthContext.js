@@ -7,18 +7,35 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser) setUser(storedUser);
+    async function fetchUser() {
+      try {
+        const res = await fetch("/api/auth/me"); // Fetch user details from backend
+        if (res.ok) {
+          const data = await res.json();
+          setUser(data.user);
+        }
+      } catch (error) {
+        setUser(null);
+      }
+    }
+    fetchUser();
   }, []);
 
-  const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
+  const login = async (credentials) => {
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      body: JSON.stringify(credentials),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      setUser(data.user);
+    }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await fetch("/api/auth/logout");
     setUser(null);
-    localStorage.removeItem("user");
   };
 
   return (
