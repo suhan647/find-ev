@@ -31,24 +31,13 @@ export default function LoginPage() {
   const onSubmit = async (data) => {
     setError("");
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        body: JSON.stringify(data),
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        setError(errorData.message);
-        return;
-      }
-
-      const userData = await res.json();
-      login(userData);
+      await login(data); // Calls login function in AuthContext
       router.push("/dashboard");
     } catch (err) {
-      setError("Something went wrong");
+      setError("Invalid credentials");
     }
   };
+  
 
   return user ? null : ( // Don't render form if already logged in
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-violet-50 p-4">

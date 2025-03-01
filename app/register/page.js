@@ -30,23 +30,20 @@ export default function RegisterPage() {
         method: "POST",
         body: JSON.stringify(data),
       });
-
+  
       if (!res.ok) {
         const errorData = await res.json();
         setError(errorData.message);
         return;
       }
-
-      const userData = await res.json();
-
-      localStorage.setItem("user", JSON.stringify({ id: userData._id, email: userData.email }));
-
-      login(userData);
+  
+      await login(data); // Calls login function in AuthContext
       router.push("/dashboard");
     } catch (err) {
       setError("Something went wrong");
     }
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-50 to-indigo-50 p-4">

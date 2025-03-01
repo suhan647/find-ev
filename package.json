@@ -11,9 +11,12 @@
   "dependencies": {
     "@hookform/resolvers": "^4.1.1",
     "bcryptjs": "^3.0.2",
+    "framer-motion": "^12.4.7",
     "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.10.1",
     "next": "15.1.7",
+    "next-auth": "^4.24.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
