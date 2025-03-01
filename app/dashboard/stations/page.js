@@ -14,8 +14,6 @@ export default function StationsPage() {
     loadStations();
   }, []);
 
-  console.log('suhan', process.env.NEXT_PUBLIC_API_URL);
-
   async function loadStations() {
     setIsLoading(true);
     try {

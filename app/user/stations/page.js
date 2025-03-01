@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { FaMapMarkerAlt, FaBatteryThreeQuarters, FaBolt, FaTimes, FaExclamationCircle } from "react-icons/fa";
 import { BiRefresh } from "react-icons/bi";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import Link from "next/link";
 
 export default function StationsPage() {
   const [stations, setStations] = useState([]);
@@ -190,7 +191,7 @@ export default function StationsPage() {
           </div>
         ) : (
           <>
-            {stations.length === 0 ? (
+            {stations?.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-xl text-blue-200">No charging stations available at the moment.</p>
                 <button 
@@ -204,13 +205,13 @@ export default function StationsPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {stations.map((station, index) => (
                   <div
-  key={station._id}
-  className="bg-white bg-opacity-10 backdrop-blur-md p-6 rounded-xl shadow-xl hover:shadow-blue-500/20 transition-all duration-300 border border-blue-500/30 card-enter staggered-animation h-full flex flex-col"
-  style={{
-    animationDelay: `${index * 0.1}s`,
-    opacity: 0,
-  }}
->
+                    key={station._id}
+                    className="bg-white bg-opacity-10 backdrop-blur-md p-6 rounded-xl shadow-xl hover:shadow-blue-500/20 transition-all duration-300 border border-blue-500/30 card-enter staggered-animation h-full flex flex-col"
+                    style={{
+                      animationDelay: `${index * 0.1}s`,
+                      opacity: 0,
+                    }}
+                  >
   <div className="flex-grow">
     <div className="flex justify-between items-start">
       <h3 className="text-2xl font-bold text-white">{station.name}</h3>
@@ -230,7 +231,9 @@ export default function StationsPage() {
     <div className="mt-4 space-y-3">
       <div className="flex items-center text-blue-200">
         <FaMapMarkerAlt className="w-4 h-4 mr-2" />
+        <Link href={`https://www.google.com/maps?q=${station.latitude},${station.longitude}`}>
         <p>{station.location}</p>
+        </Link>
       </div>
       
       <div className="flex items-center text-blue-200">
