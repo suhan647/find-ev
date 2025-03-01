@@ -28,11 +28,27 @@ export default function LoginPage() {
     }
   }, [user, router]);
 
+  // const onSubmit = async (data) => {
+  //   setError("");
+  //   try {
+  //     await login(data); // Calls login function in AuthContext
+  //     router.push("/dashboard");
+  //   } catch (err) {
+  //     setError("Invalid credentials");
+  //   }
+  // };
+  
   const onSubmit = async (data) => {
     setError("");
+  
     try {
       await login(data); // Calls login function in AuthContext
-      router.push("/dashboard");
+  
+      if (data.email === "admin@gmail.com" && data.password === "Admin@123") {
+        router.push("/dashboard");
+      } else {
+        router.push("/user");
+      }
     } catch (err) {
       setError("Invalid credentials");
     }

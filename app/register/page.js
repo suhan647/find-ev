@@ -23,11 +23,36 @@ export default function RegisterPage() {
     resolver: yupResolver(schema),
   });
 
+  // const onSubmit = async (data) => {
+  //   setError("");
+  //   try {
+  //     const res = await fetch("/api/auth/register", {
+  //       method: "POST",
+  //       body: JSON.stringify(data),
+  //     });
+  
+  //     if (!res.ok) {
+  //       const errorData = await res.json();
+  //       setError(errorData.message);
+  //       return;
+  //     }
+  
+  //     await login(data); // Calls login function in AuthContext
+  //     router.push("/dashboard");
+  //   } catch (err) {
+  //     setError("Something went wrong");
+  //   }
+  // };
+  
   const onSubmit = async (data) => {
     setError("");
+  
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(data),
       });
   
@@ -38,7 +63,12 @@ export default function RegisterPage() {
       }
   
       await login(data); // Calls login function in AuthContext
-      router.push("/dashboard");
+  
+      if (data.email === "admin@gmail.com" && data.password === "Admin@123") {
+        router.push("/dashboard");
+      } else {
+        router.push("/user");
+      }
     } catch (err) {
       setError("Something went wrong");
     }

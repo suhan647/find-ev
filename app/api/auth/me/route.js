@@ -7,7 +7,7 @@ export async function GET(req) {
     const token = req.cookies.get("token")?.value;
     
     if (!token) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ user: null }, { status: 200 }); // Return null instead of 401
     }
 
     // Verify token
@@ -16,6 +16,7 @@ export async function GET(req) {
     return NextResponse.json({ user: decoded }, { status: 200 });
 
   } catch (error) {
-    return NextResponse.json({ message: "Invalid token" }, { status: 401 });
+    console.error("Token Verification Error:", error.message);
+    return NextResponse.json({ user: null }, { status: 200 }); // Return null instead of error
   }
 }
