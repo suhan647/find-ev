@@ -91,7 +91,7 @@ export default function StationsPage() {
   };
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-black p-4 overflow-x-hidden mt-10">
+    <div className="min-h-screen w-full mt-10 bg-gradient-to-br from-blue-900 to-black p-4 overflow-x-hidden mt-10">
       <style jsx global>{`
         @keyframes pulse {
           0% { transform: scale(1); }
