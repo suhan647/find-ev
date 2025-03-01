@@ -7,7 +7,7 @@ export default function Header() {
   const isAdmin = user === "suhan@hbits.co"; 
 
   return (
-    <header className="bg-white bg-opacity-10 backdrop-blur-lg shadow-lg p-5 rounded-b-2xl fixed top-0 w-full">
+    <header className="bg-white bg-opacity-10 backdrop-blur-lg shadow-lg p-5 rounded-b-2xl">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         <h1 className="text-2xl font-extrabold text-[#00aaff]">EV Charging</h1>
         <nav>
@@ -22,11 +22,11 @@ export default function Header() {
                 Stations
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link href="/user/booking" className="hover:text-[#00aaff] transition duration-300">
                 Book Slot
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link href="/user/my-bookings" className="hover:text-[#00aaff] transition duration-300">
                 My Bookings

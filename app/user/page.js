@@ -16,7 +16,7 @@ export default function UserHome() {
   };
 
   return (
-    <div className=" w-screen overflow-hidden bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+    <div className=" w-screen overflow-hidden text-white">
       {/* Hero Section */}
       <div className="container mx-auto px-4 h-screen flex items-center">
         <div className={`flex flex-col md:flex-row items-center justify-between gap-12 transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0 translate-y-10'}`}>

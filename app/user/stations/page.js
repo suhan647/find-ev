@@ -43,10 +43,10 @@ export default function StationsPage() {
       setError(`Please enter a valid number between 1 and ${selectedStation.availableSlots}.`);
       return;
     }
-
+  
     setBooking(true);
     setError(null);
-
+  
     try {
       const response = await fetch(`/api/stations/${selectedStation._id}`, {
         method: "PUT",
@@ -58,50 +58,27 @@ export default function StationsPage() {
           booked: true,
         }),
       });
-
+  
       const data = await response.json();
-
+  
       if (!response.ok) {
         throw new Error(data.message || "Error booking slots");
       }
-
-      // Success notification
-      const successNotification = document.createElement("div");
-      successNotification.className = "fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg animate-slideInRight";
-      successNotification.style.animation = "slideInRight 0.5s ease-out forwards";
-      successNotification.innerHTML = `
-        <div class="flex items-center">
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-          </svg>
-          <span>Successfully booked ${slots} slot(s) at ${selectedStation.name}!</span>
-        </div>
-      `;
-      
-      // Add animation keyframes
-      const style = document.createElement('style');
-      style.innerHTML = `
-        @keyframes slideInRight {
-          from { transform: translateX(100%); opacity: 0; }
-          to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes fadeOut {
-          from { opacity: 1; }
-          to { opacity: 0; }
-        }
-      `;
-      document.head.appendChild(style);
-      
-      document.body.appendChild(successNotification);
-      
-      setTimeout(() => {
-        successNotification.style.animation = "fadeOut 0.5s ease-in forwards";
-        setTimeout(() => {
-          document.body.removeChild(successNotification);
-        }, 500);
-      }, 3000);
-
-      // Refresh station list
+  
+      // Save booking data in local storage
+      const newBooking = {
+        stationId: selectedStation._id,
+        stationName: selectedStation.name,
+        location: selectedStation.location,
+        slotsBooked: slots,
+        timestamp: new Date().toISOString(),
+      };
+  
+      const existingBookings = JSON.parse(localStorage.getItem("bookings")) || [];
+      existingBookings.push(newBooking);
+      localStorage.setItem("bookings", JSON.stringify(existingBookings));
+  
+      // Refresh stations
       fetchStations();
       setSelectedStation(null);
       setSlotsToBook("1");
@@ -112,7 +89,7 @@ export default function StationsPage() {
       setBooking(false);
     }
   };
-
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 to-black p-4 overflow-x-hidden mt-10">
       <style jsx global>{`
