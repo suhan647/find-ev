@@ -1,10 +1,12 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const router = useRouter()
 
   useEffect(() => {
     // Fetch the logged-in user from the API
@@ -28,8 +30,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" }); // You need to create a logout API
-    setUser(null);
+    await fetch("/api/auth/logout", { method: "POST" }); // Call the logout API
+    setUser(null); // Clear user state
+    router.push("/login"); // Redirect to login page
   };
 
   return (

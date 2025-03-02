@@ -12,12 +12,15 @@ import {
   FaHistory
 } from "react-icons/fa";
 import { IoIosFlash } from "react-icons/io";
+import { useRouter } from "next/navigation";
 
 export default function BookingsPage() {
   const [bookings, setBookings] = useState([]);
   const [pastBookings, setPastBookings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [view, setView] = useState("all"); // all, booked, past
+
+  const router = useRouter()
 
   useEffect(() => {
     // Simulate loading data
@@ -154,6 +157,7 @@ export default function BookingsPage() {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             className="px-5 py-2 ml-auto bg-green-600 hover:bg-green-700 rounded-lg text-white font-medium transition-all flex items-center"
+            onClick={()=>{router.push('/user/stations')}}
           >
             <FaChargingStation className="mr-2" /> Find Stations
           </motion.button>
